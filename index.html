@@ -1,46 +1,362 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Real Website</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pro Portfolio — Modern One-Page Website</title>
+  <meta name="description" content="A modern, responsive, accessible one-page website template (single file) — hero, features, projects, about, contact, animations, dark mode." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    /* ==========================
+       PRO ONE-PAGE SITE - STYLE
+       Clean, responsive, accessible
+       ========================== */
+    :root{
+      --bg: #0f1724;
+      --card: rgba(255,255,255,0.04);
+      --muted: rgba(255,255,255,0.65);
+      --accent: linear-gradient(90deg,#7c3aed,#06b6d4);
+      --glass: rgba(255,255,255,0.03);
+      --radius: 14px;
+      --max: 1100px;
+      --gap: 1.25rem;
+      color-scheme: dark;
+      color: #e6eef8;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    [data-theme='light']{
+      --bg: #f7fbff;
+      --card: rgba(12,18,28,0.03);
+      --muted: rgba(12,18,28,0.6);
+      color: #071029;
+      color-scheme: light;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:radial-gradient(1000px 300px at 10% 10%, rgba(124,58,237,0.08), transparent), radial-gradient(800px 200px at 90% 90%, rgba(6,182,212,0.05), transparent),var(--bg);}
+    img{max-width:100%;display:block}
+
+    .wrap{max-width:var(--max);margin:40px auto;padding:24px;}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:28px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:44px;height:44px;border-radius:10px;background:var(--accent);display:grid;place-items:center;color:white;font-weight:800;box-shadow:0 6px 20px rgba(2,6,23,0.6)}
+    nav{display:flex;gap:10px;align-items:center}
+    nav a{color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:10px;font-weight:600}
+    nav a:hover, nav a:focus{color:inherit;background:var(--glass);outline:none}
+    .cta{background:var(--accent);padding:8px 14px;border-radius:10px;color:white;font-weight:700}
+
+    /* Hero */
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:32px;align-items:center;margin-bottom:36px}
+    .intro h1{font-size:clamp(1.6rem,4vw,2.6rem);margin:0 0 12px;line-height:1.05}
+    .intro p{margin:0 0 18px;color:var(--muted);max-width:60ch}
+    .actions{display:flex;gap:12px}
+
+    /* Cards */
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:28px}
+    .card{background:var(--card);padding:18px;border-radius:12px;backdrop-filter:blur(6px);box-shadow:0 6px 20px rgba(2,6,23,0.35)}
+    .card h3{margin:0 0 8px}
+    .muted{color:var(--muted)}
+
+    /* Projects */
+    .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+    .project{border-radius:12px;overflow:hidden;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);cursor:pointer;transition:transform .28s ease, box-shadow .28s ease}
+    .project:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(0,0,0,0.5)}
+    .project .meta{padding:14px}
+
+    /* About & contact */
+    .two-col{display:grid;grid-template-columns:1fr 360px;gap:24px}
+    form{background:var(--card);padding:18px;border-radius:12px}
+    label{display:block;font-weight:600;margin-bottom:6px}
+    input,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+    textarea{min-height:120px;resize:vertical}
+    .btn{display:inline-block;padding:10px 14px;border-radius:10px;font-weight:700}
+
+    footer{margin-top:36px;color:var(--muted);font-size:0.95rem;padding:18px 0;text-align:center}
+
+    /* Responsive */
+    @media (max-width:900px){
+      .hero{grid-template-columns:1fr;}
+      .two-col{grid-template-columns:1fr}
+      header{flex-direction:column;align-items:flex-start}
+      .wrap{margin:18px auto;padding:18px}
+    }
+
+    /* Utilities */
+    .pill{display:inline-flex;gap:8px;align-items:center;padding:6px 10px;border-radius:999px;background:linear-gradient(90deg,rgba(255,255,255,0.02),transparent);font-weight:700}
+
+    /* subtle entrance animation */
+    .reveal{opacity:0;transform:translateY(10px);transition:opacity .6s ease, transform .6s ease}
+    .reveal.visible{opacity:1;transform:none}
+
+    /* Focus outlines for accessibility */
+    a:focus,button:focus,input:focus,textarea:focus{outline:3px solid rgba(124,58,237,0.18);outline-offset:3px}
+  </style>
 </head>
 <body>
-
+  <div class="wrap" id="top">
     <header>
-        <h1>Welcome to My Website</h1>
-        <nav>
-            <a href="#home">Home</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
-        </nav>
+      <div class="brand">
+        <div class="logo" aria-hidden>PB</div>
+        <div>
+          <div style="font-weight:800">Pro Builder</div>
+          <div style="font-size:0.85rem;color:var(--muted)">Modern web designer</div>
+        </div>
+      </div>
+
+      <nav aria-label="Primary navigation">
+        <a href="#projects">Projects</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <button id="theme-toggle" class="pill" aria-pressed="false">Toggle Theme</button>
+        <a class="cta" href="#contact">Hire Me</a>
+      </nav>
     </header>
 
-    <section id="home">
-        <h2>Home</h2>
-        <p>This is my first real website!</p>
-    </section>
+    <main>
+      <section class="hero">
+        <div class="intro reveal" data-reveal>
+          <div class="pill" style="width:max-content;margin-bottom:12px">Design • Frontend • UX</div>
+          <h1>Build beautiful, fast, and accessible websites — that convert.</h1>
+          <p class="muted">I'm a product-minded web developer who crafts production-ready frontends. This single-file template includes responsive layout, keyboard accessibility, animations, a projects gallery and a contact form ready to wire up to your backend or Netlify functions.</p>
+          <div class="actions">
+            <a class="btn cta" href="#contact">Get a quote</a>
+            <a class="btn" href="#projects">See work</a>
+          </div>
+          <div style="margin-top:18px;color:var(--muted);font-size:0.95rem">Tech: HTML5 • CSS3 • Vanilla JS • Progressive enhancements</div>
+        </div>
 
-    <section id="about">
+        <aside class="cards">
+          <div class="card reveal" data-reveal>
+            <h3>Performance</h3>
+            <p class="muted">Optimized markup, lazy loading, and minimal JS to keep load times low.</p>
+          </div>
+          <div class="card reveal" data-reveal>
+            <h3>Accessibility</h3>
+            <p class="muted">Keyboard friendly, focus states, good semantic HTML, and ARIA where needed.</p>
+          </div>
+          <div class="card reveal" data-reveal>
+            <h3>Responsive</h3>
+            <p class="muted">Fluid layout with CSS grid and flexbox — looks great on mobile and desktop.</p>
+          </div>
+        </aside>
+      </section>
+
+      <section id="projects" aria-labelledby="projects-label">
+        <h2 id="projects-label">Selected Projects</h2>
+        <p class="muted">Click a project to open details. These are examples — replace images and content with your own.</p>
+        <div class="projects-grid" style="margin-top:12px">
+          <article class="project" tabindex="0" data-title="E-Commerce UI" data-desc="Fast headless e-commerce UI with cart microinteractions" data-img="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1200&q=60">
+            <img alt="screenshot" loading="lazy" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=60&auto=format&fit=crop" />
+            <div class="meta">
+              <h3 style="margin:0">E-Commerce UI</h3>
+              <p class="muted" style="margin:8px 0 0">Headless store, swift checkout flow.</p>
+            </div>
+          </article>
+
+          <article class="project" tabindex="0" data-title="Marketing Landing" data-desc="Conversion-focused landing page with A/B ready modules" data-img="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&q=60">
+            <img alt="screenshot" loading="lazy" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=60&auto=format&fit=crop" />
+            <div class="meta">
+              <h3 style="margin:0">Marketing Landing</h3>
+              <p class="muted" style="margin:8px 0 0">A/B friendly sections & analytics ready.</p>
+            </div>
+          </article>
+
+          <article class="project" tabindex="0" data-title="Dashboard" data-desc="Realtime dashboard with charts and filters" data-img="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1200&q=60">
+            <img alt="screenshot" loading="lazy" src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=60&auto=format&fit=crop" />
+            <div class="meta">
+              <h3 style="margin:0">Admin Dashboard</h3>
+              <p class="muted" style="margin:8px 0 0">Fast metrics & blazing charts.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="about" style="margin-top:28px">
         <h2>About Me</h2>
-        <p>I am learning HTML, CSS, and JavaScript to become a web developer.</p>
-    </section>
+        <div class="two-col" style="margin-top:12px">
+          <div>
+            <p class="muted">I build interfaces that balance visuals, accessibility and performance. I enjoy component-driven design, clean code, and well-defined UX flows.</p>
+            <ul style="margin-top:12px">
+              <li>Design systems & component libraries</li>
+              <li>Performance budgets & audits</li>
+              <li>Conversion optimization & analytics</li>
+            </ul>
+            <p style="margin-top:12px">Available for freelance and full-time roles — open to remote work worldwide.</p>
+          </div>
+          <aside>
+            <div class="card">
+              <h3>Quick stats</h3>
+              <p class="muted">7+ years experience • 120+ projects • 99% client satisfaction</p>
+            </div>
+          </aside>
+        </div>
+      </section>
 
-    <section id="contact">
+      <section id="contact" style="margin-top:28px">
         <h2>Contact</h2>
-        <form id="contactForm">
-            <input type="text" placeholder="Your Name" required>
-            <input type="email" placeholder="Your Email" required>
-            <textarea placeholder="Your Message" required></textarea>
-            <button type="submit">Send</button>
-        </form>
-    </section>
+        <div class="two-col" style="margin-top:12px">
+          <div>
+            <form id="contact-form" novalidate>
+              <div style="display:grid;gap:10px">
+                <div>
+                  <label for="name">Name</label>
+                  <input id="name" name="name" required placeholder="Your full name">
+                </div>
+                <div>
+                  <label for="email">Email</label>
+                  <input id="email" name="email" type="email" required placeholder="you@domain.com">
+                </div>
+                <div>
+                  <label for="message">Message</label>
+                  <textarea id="message" name="message" required placeholder="Tell me about your project"></textarea>
+                </div>
+                <div>
+                  <button type="submit" class="btn cta">Send message</button>
+                </div>
+                <div id="form-feedback" class="muted" aria-live="polite" style="margin-top:8px"></div>
+              </div>
+            </form>
+          </div>
 
-    <footer>
-        <p>© 2025 My Website</p>
-    </footer>
+          <aside>
+            <div class="card">
+              <h3>Let's work together</h3>
+              <p class="muted">Prefer email? hello@probuilder.example — or use the form. You can connect your favorite backend or serverless endpoint to handle submissions.</p>
+            </div>
+          </aside>
+        </div>
+      </section>
 
-    <script src="script.js"></script>
+      <footer>
+        <div>© <span id="year"></span> Pro Builder — Crafted with care.</div>
+      </footer>
+    </main>
+
+    <!-- Project modal (aria hidden until open) -->
+    <div id="modal" role="dialog" aria-modal="true" aria-hidden="true" style="position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:24px;z-index:60">
+      <div id="modal-backdrop" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(2,6,23,0.6),rgba(2,6,23,0.85));backdrop-filter:blur(4px)"></div>
+      <div role="document" style="position:relative;max-width:900px;width:100%;border-radius:14px;overflow:hidden;background:var(--card);box-shadow:0 30px 90px rgba(2,6,23,0.8);z-index:70">
+        <button id="modal-close" aria-label="Close" style="position:absolute;right:12px;top:12px;z-index:80;padding:8px;border-radius:8px">✕</button>
+        <div id="modal-body" style="display:grid;grid-template-columns:1fr 320px;gap:0">
+          <div style="padding:10px;">
+            <img id="modal-img" alt="project screenshot" style="width:100%;height:360px;object-fit:cover;display:block">
+            <div style="padding:14px">
+              <h3 id="modal-title" style="margin:0 0 8px"></h3>
+              <p id="modal-desc" class="muted"></p>
+            </div>
+          </div>
+          <aside style="padding:14px;border-left:1px solid rgba(255,255,255,0.02)">
+            <h4 style="margin-top:0">Tech & highlights</h4>
+            <ul class="muted">
+              <li>Responsive design</li>
+              <li>Accessible interactions</li>
+              <li>Performance-minded images</li>
+            </ul>
+            <div style="margin-top:18px">
+              <a id="modal-visit" class="btn cta" href="#" target="_blank">View live</a>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ====== Tiny progressive JS for interactions ======
+    (function(){
+      // set current year
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // theme toggle (persist in localStorage)
+      const root = document.documentElement;
+      const toggle = document.getElementById('theme-toggle');
+      const stored = localStorage.getItem('site-theme');
+      if(stored) root.setAttribute('data-theme', stored);
+      toggle.addEventListener('click', ()=>{
+        const cur = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        root.setAttribute('data-theme', cur);
+        toggle.setAttribute('aria-pressed', cur === 'light');
+        localStorage.setItem('site-theme', cur);
+      });
+
+      // reveal on scroll
+      const observer = new IntersectionObserver(entries=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){ e.target.classList.add('visible'); observer.unobserve(e.target); }
+        });
+      },{threshold:0.12});
+      document.querySelectorAll('[data-reveal]').forEach(el=>observer.observe(el));
+
+      // Projects modal
+      const modal = document.getElementById('modal');
+      const modalImg = document.getElementById('modal-img');
+      const modalTitle = document.getElementById('modal-title');
+      const modalDesc = document.getElementById('modal-desc');
+      const modalVisit = document.getElementById('modal-visit');
+      const closeBtn = document.getElementById('modal-close');
+
+      function openModal(title,desc,img){
+        modalImg.src = img;
+        modalTitle.textContent = title;
+        modalDesc.textContent = desc;
+        modalVisit.href = '#';
+        modal.style.display = 'flex';
+        modal.setAttribute('aria-hidden','false');
+        // trap focus
+        closeBtn.focus();
+      }
+      function closeModal(){
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden','true');
+      }
+      document.querySelectorAll('.project').forEach(p=>{
+        p.addEventListener('click', ()=> openModal(p.dataset.title,p.dataset.desc,p.dataset.img));
+        p.addEventListener('keydown', e=>{ if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(p.dataset.title,p.dataset.desc,p.dataset.img); } });
+      });
+      closeBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', e=>{ if(e.target.id === 'modal' || e.target.id === 'modal-backdrop') closeModal(); });
+      document.addEventListener('keydown', e=>{ if(e.key === 'Escape') closeModal(); });
+
+      // Contact form (demo only - replace with real endpoint)
+      const form = document.getElementById('contact-form');
+      const feedback = document.getElementById('form-feedback');
+      form.addEventListener('submit', e=>{
+        e.preventDefault();
+        const data = new FormData(form);
+        if(!data.get('name')||!data.get('email')||!data.get('message')){
+          feedback.textContent = 'Please complete all fields.';
+          return;
+        }
+        feedback.textContent = 'Sending...';
+        // Simulate network request
+        setTimeout(()=>{
+          feedback.textContent = 'Thanks — your message was sent (demo). I will reply to ' + data.get('email');
+          form.reset();
+        },700);
+      });
+
+      // Smooth scroll for internal links
+      document.querySelectorAll('a[href^="#"]').forEach(a=>{
+        a.addEventListener('click', (e)=>{
+          const href = a.getAttribute('href');
+          if(href === '#') return;
+          const el = document.querySelector(href);
+          if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth',block:'start'}); }
+        });
+      });
+
+      // Small accessibility improvement: ensure first focusable is meaningful
+      window.addEventListener('hashchange', ()=>{
+        const el = document.getElementById(location.hash.replace('#',''));
+        if(el) el.setAttribute('tabindex','-1');
+      });
+
+    })();
+  </script>
 </body>
 </html>
